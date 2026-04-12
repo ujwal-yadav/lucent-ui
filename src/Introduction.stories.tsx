@@ -86,7 +86,7 @@ const Welcome = () => {
             lineHeight: '1.1',
           }}
         >
-          Enterprise Grade React Components
+          Enterprise Grade Design System
         </h1>
         <p
           style={{
@@ -98,8 +98,8 @@ const Welcome = () => {
             lineHeight: '1.6',
           }}
         >
-          A production ready component library built with TypeScript, Tailwind CSS, and
-          accessibility first design. Trusted for building modern web applications.
+          A production ready design system built with TypeScript, Tailwind CSS, and accessibility
+          first design. Trusted for building modern web applications.
         </p>
         <div
           style={{
