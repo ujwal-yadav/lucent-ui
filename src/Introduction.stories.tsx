@@ -127,24 +127,6 @@ const Welcome = () => {
           >
             Browse Components →
           </a>
-          <a
-            href="/?path=/docs/introduction-welcome--docs"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '0.75rem 1.5rem',
-              background: 'white',
-              color: '#171717',
-              borderRadius: '6px',
-              textDecoration: 'none',
-              fontSize: '1rem',
-              fontWeight: 500,
-              boxShadow: 'rgba(0, 0, 0, 0.08) 0px 0px 0px 1px',
-              transition: 'all 0.2s',
-            }}
-          >
-            View Documentation
-          </a>
         </div>
 
         {/* Stats */}

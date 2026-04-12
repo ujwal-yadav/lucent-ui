@@ -34,6 +34,7 @@ const preview: Preview = {
       storySort: {
         order: ['Introduction', 'Components'],
       },
+      initialActive: 'introduction-welcome--default',
     },
   },
   globalTypes: {
