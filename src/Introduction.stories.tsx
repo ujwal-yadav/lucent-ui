@@ -284,6 +284,38 @@ const Welcome = () => {
           ))}
         </div>
       </div>
+
+      {/* Footer */}
+      <div
+        style={{
+          padding: '2rem',
+          textAlign: 'center',
+          borderTop: '1px solid rgba(0, 0, 0, 0.08)',
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            fontSize: '0.875rem',
+            color: '#6b7280',
+            fontWeight: 400,
+          }}
+        >
+          Built with ❤️ by{' '}
+          <a
+            href="https://ujwal.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#3535F3',
+              fontWeight: 500,
+              textDecoration: 'none',
+            }}
+          >
+            Ujwal Yadav
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
