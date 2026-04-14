@@ -233,6 +233,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                           className={cn(
                             'w-4 h-4 rounded border-2 cursor-pointer flex-shrink-0 mt-0.5',
                             'bg-white',
+                            'outline-none focus:outline-none',
                             'focus-visible:shadow-[0_0_0_2px_#3535F3]',
                             'transition-all duration-150',
                             '[--tw-checkbox-color:#3535F3]',
