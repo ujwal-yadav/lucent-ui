@@ -27,17 +27,23 @@ export const Default: Story = {
     return (
       <>
         <Button onClick={() => setIsOpen(true)}>Open Modal</Button>
-        <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Modal Title">
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Modal Title"
+          actions={
+            <>
+              <Button variant="outline" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => setIsOpen(false)}>Confirm</Button>
+            </>
+          }
+        >
           <p className="text-neutral-600">This is the modal content. You can put anything here!</p>
           <p className="text-neutral-600 mt-2">
             The modal has smooth animations and focus management.
           </p>
-          <div className="flex gap-2 mt-6">
-            <Button onClick={() => setIsOpen(false)}>Confirm</Button>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
-          </div>
         </Modal>
       </>
     );
@@ -70,14 +76,12 @@ export const Animations: Story = {
           onClose={() => setIsOpen(false)}
           title={`${animation.charAt(0).toUpperCase() + animation.slice(1)} Animation`}
           animation={animation}
+          actions={<Button onClick={() => setIsOpen(false)}>Close</Button>}
         >
           <p className="text-neutral-600">
             This modal uses the <strong>{animation}</strong> animation.
           </p>
           <p className="text-neutral-600 mt-2">Try different animations to see the effects!</p>
-          <div className="flex gap-2 mt-6">
-            <Button onClick={() => setIsOpen(false)}>Close</Button>
-          </div>
         </Modal>
       </div>
     );
@@ -106,6 +110,7 @@ export const Sizes: Story = {
           onClose={() => setIsOpen(false)}
           title={`${size.toUpperCase()} Modal`}
           size={size}
+          actions={<Button onClick={() => setIsOpen(false)}>Close</Button>}
         >
           <p className="text-neutral-600">
             This is a <strong>{size}</strong> sized modal.
@@ -136,8 +141,18 @@ export const WithForm: Story = {
           onClose={() => setIsOpen(false)}
           title="Create Account"
           animation="slideUp"
+          actions={
+            <>
+              <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit" form="account-form">
+                Submit
+              </Button>
+            </>
+          }
         >
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form id="account-form" className="space-y-4" onSubmit={handleSubmit}>
             <Input
               label="Name"
               placeholder="Enter your name"
@@ -153,12 +168,6 @@ export const WithForm: Story = {
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
             />
-            <div className="flex gap-2 pt-2">
-              <Button type="submit">Submit</Button>
-              <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>
-                Cancel
-              </Button>
-            </div>
           </form>
         </Modal>
       </>
@@ -187,17 +196,19 @@ export const ConfirmDialog: Story = {
           size="sm"
           animation="scale"
           closeOnOverlayClick={false}
+          actions={
+            <>
+              <Button variant="outline" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="danger" onClick={handleDelete}>
+                Delete
+              </Button>
+            </>
+          }
         >
           <p className="text-neutral-600">Are you sure you want to delete this item?</p>
           <p className="text-neutral-600 mt-2 text-sm">This action cannot be undone.</p>
-          <div className="flex gap-2 mt-6">
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
-          </div>
         </Modal>
       </>
     );
@@ -213,15 +224,21 @@ export const NestedModals: Story = {
       <>
         <Button onClick={() => setFirstOpen(true)}>Open First Modal</Button>
 
-        <Modal isOpen={firstOpen} onClose={() => setFirstOpen(false)} title="First Modal">
+        <Modal
+          isOpen={firstOpen}
+          onClose={() => setFirstOpen(false)}
+          title="First Modal"
+          actions={
+            <>
+              <Button variant="outline" onClick={() => setFirstOpen(false)}>
+                Close
+              </Button>
+              <Button onClick={() => setSecondOpen(true)}>Open Second Modal</Button>
+            </>
+          }
+        >
           <p className="text-neutral-600">This is the first modal.</p>
           <p className="text-neutral-600 mt-2">You can open another modal from here!</p>
-          <div className="flex gap-2 mt-6">
-            <Button onClick={() => setSecondOpen(true)}>Open Second Modal</Button>
-            <Button variant="outline" onClick={() => setFirstOpen(false)}>
-              Close
-            </Button>
-          </div>
         </Modal>
 
         <Modal
@@ -229,12 +246,10 @@ export const NestedModals: Story = {
           onClose={() => setSecondOpen(false)}
           title="Second Modal"
           animation="slideDown"
+          actions={<Button onClick={() => setSecondOpen(false)}>Close</Button>}
         >
           <p className="text-neutral-600">This is a nested modal!</p>
           <p className="text-neutral-600 mt-2">Focus management still works correctly.</p>
-          <div className="flex gap-2 mt-6">
-            <Button onClick={() => setSecondOpen(false)}>Close</Button>
-          </div>
         </Modal>
       </>
     );
@@ -253,6 +268,14 @@ export const LongContent: Story = {
           onClose={() => setIsOpen(false)}
           title="Terms and Conditions"
           size="lg"
+          actions={
+            <>
+              <Button variant="outline" onClick={() => setIsOpen(false)}>
+                Decline
+              </Button>
+              <Button onClick={() => setIsOpen(false)}>Accept</Button>
+            </>
+          }
         >
           <div className="prose max-h-96 overflow-y-auto">
             <p className="text-neutral-600">
@@ -279,12 +302,6 @@ export const LongContent: Story = {
               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
               ea commodo consequat.
             </p>
-          </div>
-          <div className="flex gap-2 mt-6 pt-4 border-t border-neutral-200">
-            <Button onClick={() => setIsOpen(false)}>Accept</Button>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Decline
-            </Button>
           </div>
         </Modal>
       </>
