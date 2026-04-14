@@ -11,6 +11,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
       options: initialOptions,
       onApply,
       onClear,
+      multiple = true,
       searchable = false,
       searchPlaceholder = 'Search',
       icon,
@@ -87,9 +88,14 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
     };
 
     const handleCheckboxChange = (value: string) => {
-      setOptions((prev) =>
-        prev.map((opt) => (opt.value === value ? { ...opt, checked: !opt.checked } : opt))
-      );
+      if (multiple) {
+        setOptions((prev) =>
+          prev.map((opt) => (opt.value === value ? { ...opt, checked: !opt.checked } : opt))
+        );
+      } else {
+        // Single select mode - uncheck all others
+        setOptions((prev) => prev.map((opt) => ({ ...opt, checked: opt.value === value })));
+      }
     };
 
     const handleClear = () => {
@@ -154,7 +160,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
           <span className="text-sm font-medium text-neutral-900">{label}</span>
           {appliedCount > 0 && (
             <span className="flex items-center justify-center min-w-[18px] h-[18px] px-1.5 text-xs font-semibold text-white bg-primary-500 rounded-full">
-              {appliedCount}
+              {multiple ? appliedCount : ''}
             </span>
           )}
           <span className={cn('transition-transform duration-200', open && 'rotate-180')}>
@@ -226,16 +232,18 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                         }}
                       >
                         <input
-                          type="checkbox"
+                          type={multiple ? 'checkbox' : 'radio'}
+                          name={multiple ? undefined : 'filter-option'}
                           checked={option.checked || false}
                           onChange={() => handleCheckboxChange(option.value)}
                           className={cn(
-                            'w-4 h-4 rounded border-2 cursor-pointer flex-shrink-0 mt-0.5',
+                            'w-4 h-4 border-2 cursor-pointer flex-shrink-0 mt-0.5',
                             'bg-white',
                             'outline-none focus:outline-none',
                             'focus-visible:shadow-[0_0_0_2px_#3535F3]',
                             'transition-all duration-150',
                             '[--tw-checkbox-color:#3535F3]',
+                            multiple ? 'rounded' : 'rounded-full',
                             option.checked
                               ? 'border-[#3535F3] bg-[#3535F3] [&:checked]:bg-[#3535F3]'
                               : 'border-gray-400 hover:border-[#3535F3]'
@@ -275,7 +283,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                     : 'text-gray-400 cursor-not-allowed'
                 )}
               >
-                Clear All
+                {multiple ? 'Clear All' : 'Clear'}
               </button>
               <button
                 type="button"

@@ -24,6 +24,9 @@ export interface FilterPillProps {
   /** Callback when filters are cleared */
   onClear?: () => void;
 
+  /** Whether to allow multiple selections */
+  multiple?: boolean;
+
   /** Whether to show search input */
   searchable?: boolean;
 

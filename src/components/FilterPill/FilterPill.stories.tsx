@@ -689,6 +689,48 @@ export const DateRangeFilter: Story = {
 };
 
 /**
+ * Single-select filter pill with radio buttons
+ */
+export const SingleSelect: Story = {
+  render: () => {
+    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+    const sizeOptions = [
+      { value: 'xs', label: 'Extra Small (XS)', checked: false },
+      { value: 's', label: 'Small (S)', checked: false },
+      { value: 'm', label: 'Medium (M)', checked: false },
+      { value: 'l', label: 'Large (L)', checked: false },
+      { value: 'xl', label: 'Extra Large (XL)', checked: false },
+      { value: 'xxl', label: 'Extra Extra Large (XXL)', checked: false },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <p className="text-sm text-gray-600">
+          Single-select mode uses radio buttons for exclusive selection.
+        </p>
+        <FilterPill
+          label="Size"
+          options={sizeOptions}
+          multiple={false}
+          searchable
+          searchPlaceholder="Search sizes..."
+          onApply={(values) => {
+            setSelectedSize(values[0] || null);
+            console.log('Selected size:', values[0]);
+          }}
+        />
+        {selectedSize && (
+          <div className="text-sm text-neutral-600">
+            Selected: <strong>{selectedSize}</strong>
+          </div>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
  * Multiple filter pills including date filter
  */
 export const MixedFilters: Story = {
