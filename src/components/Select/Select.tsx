@@ -12,6 +12,7 @@ import { SelectProps, SelectOption } from './Select.types';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import { useControllableState } from '../../hooks/useControllableState';
 import { cn } from '../../utils/cn';
+import { Portal } from '../../utils/Portal';
 
 // Icons as inline SVGs to avoid external dependencies
 const ChevronDownIcon = ({ className }: { className?: string }) => (
@@ -138,7 +139,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       id: customId,
       emptyMessage = 'No options found',
       loadingMessage = 'Loading...',
-      portal: _portal = false,
+      portal = true,
       onOpen,
       onClose,
       position = 'auto',
@@ -155,6 +156,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [highlightedIndex, setHighlightedIndex] = useState(0);
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
     type ValueType = string | string[] | null;
     const [value, setValue] = useControllableState<ValueType>(
@@ -263,13 +265,46 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       setValue(multiple ? [] : null);
     }, [multiple, setValue]);
 
+    // Update dropdown position for portal
+    const updateDropdownPosition = useCallback(() => {
+      if (!triggerRef.current || !portal) return;
+
+      const rect = triggerRef.current.getBoundingClientRect();
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+
+      let top = 0;
+
+      if (position === 'top') {
+        top = rect.top + scrollTop - 8;
+      } else if (position === 'bottom') {
+        top = rect.bottom + scrollTop + 8;
+      } else {
+        // auto: check if there's enough space below
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        if (spaceBelow >= 300 || spaceBelow > spaceAbove) {
+          top = rect.bottom + scrollTop + 8;
+        } else {
+          top = rect.top + scrollTop - 8;
+        }
+      }
+
+      setDropdownPosition({
+        top,
+        left: rect.left + scrollLeft,
+        width: rect.width,
+      });
+    }, [portal, position]);
+
     // Open/close dropdown
     const openDropdown = useCallback(() => {
       if (disabled) return;
+      updateDropdownPosition();
       setIsOpen(true);
       setHighlightedIndex(0);
       onOpen?.();
-    }, [disabled, onOpen]);
+    }, [disabled, onOpen, updateDropdownPosition]);
 
     const closeDropdown = useCallback(() => {
       setIsOpen(false);
@@ -284,6 +319,19 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         openDropdown();
       }
     }, [isOpen, openDropdown, closeDropdown]);
+
+    // Update position when dropdown opens or on scroll/resize
+    useEffect(() => {
+      if (isOpen && portal) {
+        updateDropdownPosition();
+        window.addEventListener('scroll', updateDropdownPosition, true);
+        window.addEventListener('resize', updateDropdownPosition);
+        return () => {
+          window.removeEventListener('scroll', updateDropdownPosition, true);
+          window.removeEventListener('resize', updateDropdownPosition);
+        };
+      }
+    }, [isOpen, portal, updateDropdownPosition]);
 
     // Focus search input when dropdown opens
     useEffect(() => {
@@ -698,56 +746,111 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         </button>
 
         {/* Dropdown */}
-        {isOpen && (
-          <div
-            className={cn(
-              'absolute z-50 w-full mt-1',
-              'bg-white border border-neutral-200 rounded-lg shadow-lg',
-              'animate-slideDown',
-              position === 'top' && 'bottom-full mb-1 mt-0'
-            )}
-            style={{ maxHeight: `${maxHeight}px` }}
-          >
-            {/* Search input */}
-            {searchable && (
-              <div className="sticky top-0 bg-white border-b border-neutral-200 p-2 z-10">
-                <div className="relative">
-                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                  <input
-                    ref={searchInputRef}
-                    id={searchInputId}
-                    type="text"
-                    role="searchbox"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className={cn(
-                      'w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md',
-                      'focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500',
-                      'text-sm'
-                    )}
-                    aria-label="Search options"
-                    aria-controls={listboxId}
-                  />
-                </div>
-              </div>
-            )}
+        {isOpen &&
+          (portal ? (
+            <Portal>
+              <div
+                className={cn(
+                  'fixed z-50 bg-white border border-neutral-200 rounded-lg shadow-lg',
+                  'animate-slideDown'
+                )}
+                style={{
+                  top: `${dropdownPosition.top}px`,
+                  left: `${dropdownPosition.left}px`,
+                  width: `${dropdownPosition.width}px`,
+                  maxHeight: `${maxHeight}px`,
+                }}
+              >
+                {/* Search input */}
+                {searchable && (
+                  <div className="sticky top-0 bg-white border-b border-neutral-200 p-2 z-10">
+                    <div className="relative">
+                      <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                      <input
+                        ref={searchInputRef}
+                        id={searchInputId}
+                        type="text"
+                        role="searchbox"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        className={cn(
+                          'w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md',
+                          'focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500',
+                          'text-sm'
+                        )}
+                        aria-label="Search options"
+                        aria-controls={listboxId}
+                      />
+                    </div>
+                  </div>
+                )}
 
-            {/* Options list */}
-            <ul
-              ref={listboxRef}
-              id={listboxId}
-              role="listbox"
-              aria-label={ariaLabel || 'Options'}
-              aria-multiselectable={multiple}
-              tabIndex={-1}
-              className="overflow-y-auto p-1"
-              style={{ maxHeight: searchable ? maxHeight - 60 : maxHeight }}
+                {/* Options list */}
+                <ul
+                  ref={listboxRef}
+                  id={listboxId}
+                  role="listbox"
+                  aria-label={ariaLabel || 'Options'}
+                  aria-multiselectable={multiple}
+                  tabIndex={-1}
+                  className="overflow-y-auto p-1"
+                  style={{ maxHeight: searchable ? maxHeight - 60 : maxHeight }}
+                >
+                  {renderOptions()}
+                </ul>
+              </div>
+            </Portal>
+          ) : (
+            <div
+              className={cn(
+                'absolute z-50 w-full mt-1',
+                'bg-white border border-neutral-200 rounded-lg shadow-lg',
+                'animate-slideDown',
+                position === 'top' && 'bottom-full mb-1 mt-0'
+              )}
+              style={{ maxHeight: `${maxHeight}px` }}
             >
-              {renderOptions()}
-            </ul>
-          </div>
-        )}
+              {/* Search input */}
+              {searchable && (
+                <div className="sticky top-0 bg-white border-b border-neutral-200 p-2 z-10">
+                  <div className="relative">
+                    <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+                    <input
+                      ref={searchInputRef}
+                      id={searchInputId}
+                      type="text"
+                      role="searchbox"
+                      placeholder="Search..."
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      className={cn(
+                        'w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md',
+                        'focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500',
+                        'text-sm'
+                      )}
+                      aria-label="Search options"
+                      aria-controls={listboxId}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Options list */}
+              <ul
+                ref={listboxRef}
+                id={listboxId}
+                role="listbox"
+                aria-label={ariaLabel || 'Options'}
+                aria-multiselectable={multiple}
+                tabIndex={-1}
+                className="overflow-y-auto p-1"
+                style={{ maxHeight: searchable ? maxHeight - 60 : maxHeight }}
+              >
+                {renderOptions()}
+              </ul>
+            </div>
+          ))}
       </div>
     );
   }

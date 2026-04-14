@@ -115,7 +115,7 @@ export const Toast: React.FC<ToastProps> = ({
     <div
       className={cn(
         'flex items-start gap-3 p-4 rounded-lg border shadow-lg max-w-md',
-        'animate-slideInRight',
+        'animate-slideInRight pointer-events-auto',
         variantStyles[variant],
         className
       )}

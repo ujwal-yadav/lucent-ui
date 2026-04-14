@@ -1,5 +1,6 @@
 import React, { useEffect, ReactNode, useState, useRef } from 'react';
 import { cn } from '../../utils/cn';
+import { Portal } from '../../utils/Portal';
 
 export interface DrawerProps {
   /** Whether the drawer is open */
@@ -176,59 +177,61 @@ export const Drawer: React.FC<DrawerProps> = ({
   };
 
   return (
-    <div
-      className={cn(
-        'fixed inset-0 z-50 bg-black/50',
-        'transition-opacity duration-300',
-        isAnimating ? 'opacity-100' : 'opacity-0'
-      )}
-      onClick={closeOnOverlayClick ? onClose : undefined}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={title ? 'drawer-title' : undefined}
-    >
+    <Portal>
       <div
-        ref={drawerRef}
-        tabIndex={-1}
         className={cn(
-          'fixed bg-white shadow-xl',
-          'transition-transform duration-300 ease-out',
-          'focus:outline-none',
-          'flex flex-col',
-          positionStyles[position],
-          sizeStyles[position][size],
-          animationStyles[position],
-          className
+          'fixed inset-0 z-50 bg-black/50',
+          'transition-opacity duration-300',
+          isAnimating ? 'opacity-100' : 'opacity-0'
         )}
-        onClick={(e) => e.stopPropagation()}
+        onClick={closeOnOverlayClick ? onClose : undefined}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? 'drawer-title' : undefined}
       >
-        {/* Header */}
-        {title && (
-          <div className="flex items-center justify-between p-6 border-b border-neutral-200 flex-shrink-0">
-            <h2 id="drawer-title" className="text-xl font-semibold text-neutral-900">
-              {title}
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-neutral-400 hover:text-neutral-600 transition-colors"
-              aria-label="Close drawer"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
+        <div
+          ref={drawerRef}
+          tabIndex={-1}
+          className={cn(
+            'fixed bg-white shadow-xl',
+            'transition-transform duration-300 ease-out',
+            'focus:outline-none',
+            'flex flex-col',
+            positionStyles[position],
+            sizeStyles[position][size],
+            animationStyles[position],
+            className
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          {title && (
+            <div className="flex items-center justify-between p-6 border-b border-neutral-200 flex-shrink-0">
+              <h2 id="drawer-title" className="text-xl font-semibold text-neutral-900">
+                {title}
+              </h2>
+              <button
+                onClick={onClose}
+                className="text-neutral-400 hover:text-neutral-600 transition-colors"
+                aria-label="Close drawer"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
 
-        {/* Content */}
-        <div className={cn('flex-1 overflow-y-auto p-6', !title && 'pt-8')}>{children}</div>
+          {/* Content */}
+          <div className={cn('flex-1 overflow-y-auto p-6', !title && 'pt-8')}>{children}</div>
+        </div>
       </div>
-    </div>
+    </Portal>
   );
 };
 

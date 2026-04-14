@@ -1,5 +1,6 @@
 import { useEffect, ReactNode, useState, useRef } from 'react';
 import { cn } from '../../utils/cn';
+import { Portal } from '../../utils/Portal';
 
 export interface ModalProps {
   /** Whether the modal is open */
@@ -162,63 +163,65 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div
-      className={cn(
-        'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50',
-        'transition-opacity duration-300',
-        animationStyles[animation].overlay
-      )}
-      onClick={closeOnOverlayClick ? onClose : undefined}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={title ? 'modal-title' : undefined}
-    >
+    <Portal>
       <div
-        ref={modalRef}
-        tabIndex={-1}
         className={cn(
-          'relative w-full bg-white rounded-md shadow-card',
-          'transition-all duration-300',
-          'focus:outline-none',
-          sizeStyles[size],
-          animationStyles[animation].content,
-          className
+          'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50',
+          'transition-opacity duration-300',
+          animationStyles[animation].overlay
         )}
-        onClick={(e) => e.stopPropagation()}
+        onClick={closeOnOverlayClick ? onClose : undefined}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? 'modal-title' : undefined}
       >
-        {/* Header */}
-        {title && (
-          <div
-            className="flex items-center justify-between p-6"
-            style={{ boxShadow: 'rgba(0, 0, 0, 0.08) 0px 1px 0px' }}
-          >
-            <h2
-              id="modal-title"
-              className="text-xl font-semibold text-neutral-900 tracking-subhead"
+        <div
+          ref={modalRef}
+          tabIndex={-1}
+          className={cn(
+            'relative w-full bg-white rounded-md shadow-card',
+            'transition-all duration-300',
+            'focus:outline-none',
+            sizeStyles[size],
+            animationStyles[animation].content,
+            className
+          )}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          {title && (
+            <div
+              className="flex items-center justify-between p-6"
+              style={{ boxShadow: 'rgba(0, 0, 0, 0.08) 0px 1px 0px' }}
             >
-              {title}
-            </h2>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Close modal"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
+              <h2
+                id="modal-title"
+                className="text-xl font-semibold text-neutral-900 tracking-subhead"
+              >
+                {title}
+              </h2>
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Close modal"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
 
-        {/* Content */}
-        <div className={cn('p-6', !title && 'pt-8')}>{children}</div>
+          {/* Content */}
+          <div className={cn('p-6', !title && 'pt-8')}>{children}</div>
+        </div>
       </div>
-    </div>
+    </Portal>
   );
 };
 

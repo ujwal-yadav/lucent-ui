@@ -1,5 +1,6 @@
-import React, { useState, useRef, ReactNode } from 'react';
+import React, { useState, useRef, ReactNode, useEffect } from 'react';
 import { cn } from '../../utils/cn';
+import { Portal } from '../../utils/Portal';
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -18,6 +19,9 @@ export interface TooltipProps {
 
   /** Delay before showing (ms) */
   delay?: number;
+
+  /** Use portal for rendering (default: true) */
+  portal?: boolean;
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
@@ -26,11 +30,58 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children,
   className,
   delay = 300,
+  portal = true,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const showTimeoutRef = useRef<number>();
   const hideTimeoutRef = useRef<number>();
+  const triggerRef = useRef<HTMLDivElement>(null);
+
+  const updatePosition = () => {
+    if (!triggerRef.current || !portal) return;
+
+    const rect = triggerRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+
+    let top = 0;
+    let left = 0;
+
+    switch (position) {
+      case 'top':
+        top = rect.top + scrollTop - 8;
+        left = rect.left + scrollLeft + rect.width / 2;
+        break;
+      case 'bottom':
+        top = rect.bottom + scrollTop + 8;
+        left = rect.left + scrollLeft + rect.width / 2;
+        break;
+      case 'left':
+        top = rect.top + scrollTop + rect.height / 2;
+        left = rect.left + scrollLeft - 8;
+        break;
+      case 'right':
+        top = rect.top + scrollTop + rect.height / 2;
+        left = rect.right + scrollLeft + 8;
+        break;
+    }
+
+    setTooltipPosition({ top, left });
+  };
+
+  useEffect(() => {
+    if (isVisible && portal) {
+      updatePosition();
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
+      return () => {
+        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('resize', updatePosition);
+      };
+    }
+  }, [isVisible, portal]);
 
   const handleMouseEnter = () => {
     if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current);
@@ -38,6 +89,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
     setShouldRender(true);
     showTimeoutRef.current = window.setTimeout(() => {
+      updatePosition();
       setIsVisible(true);
     }, delay);
   };
@@ -48,7 +100,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setIsVisible(false);
     hideTimeoutRef.current = window.setTimeout(() => {
       setShouldRender(false);
-    }, 200); // Wait for fade out animation
+    }, 200);
   };
 
   const positionStyles = {
@@ -56,6 +108,13 @@ export const Tooltip: React.FC<TooltipProps> = ({
     bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
     left: 'right-full top-1/2 -translate-y-1/2 mr-2',
     right: 'left-full top-1/2 -translate-y-1/2 ml-2',
+  };
+
+  const portalPositionStyles = {
+    top: '-translate-x-1/2 -translate-y-full',
+    bottom: '-translate-x-1/2',
+    left: '-translate-x-full -translate-y-1/2',
+    right: '-translate-y-1/2',
   };
 
   const animationStyles = {
@@ -74,8 +133,41 @@ export const Tooltip: React.FC<TooltipProps> = ({
       'right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-neutral-900',
   };
 
+  const tooltipContent = shouldRender && (
+    <div
+      role="tooltip"
+      className={cn(
+        'px-3 py-2 text-sm text-white bg-neutral-900 rounded-lg whitespace-nowrap',
+        'transition-all duration-200 ease-out',
+        'pointer-events-none',
+        portal ? 'fixed z-50' : 'absolute z-50',
+        portal ? portalPositionStyles[position] : positionStyles[position],
+        animationStyles[position]
+      )}
+      style={
+        portal
+          ? {
+              top: `${tooltipPosition.top}px`,
+              left: `${tooltipPosition.left}px`,
+            }
+          : undefined
+      }
+    >
+      {content}
+      <div
+        className={cn(
+          'absolute w-0 h-0 border-4',
+          'transition-opacity duration-200',
+          isVisible ? 'opacity-100' : 'opacity-0',
+          arrowStyles[position]
+        )}
+      />
+    </div>
+  );
+
   return (
     <div
+      ref={triggerRef}
       className={cn('relative inline-block', className)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -83,28 +175,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       onBlur={handleMouseLeave}
     >
       {children}
-      {shouldRender && (
-        <div
-          role="tooltip"
-          className={cn(
-            'absolute z-50 px-3 py-2 text-sm text-white bg-neutral-900 rounded-lg whitespace-nowrap',
-            'transition-all duration-200 ease-out',
-            'pointer-events-none',
-            positionStyles[position],
-            animationStyles[position]
-          )}
-        >
-          {content}
-          <div
-            className={cn(
-              'absolute w-0 h-0 border-4',
-              'transition-opacity duration-200',
-              isVisible ? 'opacity-100' : 'opacity-0',
-              arrowStyles[position]
-            )}
-          />
-        </div>
-      )}
+      {portal ? <Portal>{tooltipContent}</Portal> : tooltipContent}
     </div>
   );
 };

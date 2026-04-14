@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '../../utils/cn';
+import { Portal } from '../../utils/Portal';
 
 export interface DialogProps {
   /** Whether dialog is open */
@@ -70,43 +71,45 @@ export const Dialog: React.FC<DialogProps> = ({
   };
 
   return (
-    <div
-      className={cn(
-        'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50',
-        'transition-opacity duration-300',
-        isAnimating ? 'opacity-100' : 'opacity-0'
-      )}
-      onClick={onClose}
-    >
+    <Portal>
       <div
-        ref={dialogRef}
-        onClick={(e) => e.stopPropagation()}
         className={cn(
-          'bg-white rounded-lg shadow-xl transition-all duration-300',
-          'focus:outline-none',
-          sizeStyles[size],
-          isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
-          className
+          'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50',
+          'transition-opacity duration-300',
+          isAnimating ? 'opacity-100' : 'opacity-0'
         )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? 'dialog-title' : undefined}
+        onClick={onClose}
       >
-        {title && (
-          <div className="px-6 py-4 border-b border-neutral-200">
-            <h2 id="dialog-title" className="text-lg font-semibold text-neutral-900">
-              {title}
-            </h2>
-          </div>
-        )}
-        <div className="px-6 py-4">{children}</div>
-        {footer && (
-          <div className="px-6 py-4 border-t border-neutral-200 flex justify-end gap-3">
-            {footer}
-          </div>
-        )}
+        <div
+          ref={dialogRef}
+          onClick={(e) => e.stopPropagation()}
+          className={cn(
+            'bg-white rounded-lg shadow-xl transition-all duration-300',
+            'focus:outline-none',
+            sizeStyles[size],
+            isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95',
+            className
+          )}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={title ? 'dialog-title' : undefined}
+        >
+          {title && (
+            <div className="px-6 py-4 border-b border-neutral-200">
+              <h2 id="dialog-title" className="text-lg font-semibold text-neutral-900">
+                {title}
+              </h2>
+            </div>
+          )}
+          <div className="px-6 py-4">{children}</div>
+          {footer && (
+            <div className="px-6 py-4 border-t border-neutral-200 flex justify-end gap-3">
+              {footer}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Portal>
   );
 };
 
