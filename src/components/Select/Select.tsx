@@ -116,6 +116,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       defaultValue,
       onChange,
       options,
+      label,
       placeholder = 'Select an option...',
       disabled = false,
       error = false,
@@ -139,7 +140,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       id: customId,
       emptyMessage = 'No options found',
       loadingMessage = 'Loading...',
-      portal = true,
+      portal = false,
       onOpen,
       onClose,
       position = 'auto',
@@ -155,7 +156,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     // State management
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [highlightedIndex, setHighlightedIndex] = useState(0);
+    const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
 
     type ValueType = string | string[] | null;
@@ -250,16 +251,6 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       [multiple, value, setValue]
     );
 
-    // Remove a selected option (multi-select only)
-    const removeOption = useCallback(
-      (optionValue: string) => {
-        if (multiple && Array.isArray(value)) {
-          setValue(value.filter((v) => v !== optionValue));
-        }
-      },
-      [multiple, value, setValue]
-    );
-
     // Clear all selections
     const clearSelection = useCallback(() => {
       setValue(multiple ? [] : null);
@@ -302,7 +293,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       if (disabled) return;
       updateDropdownPosition();
       setIsOpen(true);
-      setHighlightedIndex(0);
+      setHighlightedIndex(-1);
       onOpen?.();
     }, [disabled, onOpen, updateDropdownPosition]);
 
@@ -455,7 +446,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         const query = event.target.value;
         setSearchQuery(query);
-        setHighlightedIndex(0);
+        setHighlightedIndex(-1);
         onSearch?.(query);
       },
       [onSearch]
@@ -486,21 +477,15 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     // Variant styles
     const variantStyles = {
       default: cn(
-        'bg-white border-neutral-300',
-        'hover:border-primary-400',
-        'focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
+        'bg-white border-neutral-300 outline-none',
         error && 'border-danger-500 focus:border-danger-500 focus:ring-danger-100'
       ),
       outline: cn(
-        'bg-transparent border-neutral-400',
-        'hover:border-primary-500 hover:bg-neutral-50',
-        'focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
+        'bg-transparent border-neutral-400 outline-none',
         error && 'border-danger-500 focus:border-danger-500 focus:ring-danger-100'
       ),
       filled: cn(
-        'bg-neutral-100 border-transparent',
-        'hover:bg-neutral-200',
-        'focus:bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100',
+        'bg-neutral-100 border-transparent outline-none',
         error && 'bg-danger-50 focus:border-danger-500 focus:ring-danger-100'
       ),
     };
@@ -513,37 +498,9 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 
       if (multiple && Array.isArray(value) && value.length > 0) {
         return (
-          <div className="flex flex-wrap gap-1 flex-1 min-w-0">
-            {selectedOptions.map((option) => (
-              <span
-                key={String(option.value)}
-                className={cn(
-                  'inline-flex items-center gap-1 rounded bg-primary-100 text-primary-700',
-                  'border border-primary-200',
-                  'max-w-full',
-                  sizeStyles[size].tag
-                )}
-              >
-                <span className="truncate">{option.label}</span>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeOption(option.value);
-                  }}
-                  className={cn(
-                    'inline-flex items-center justify-center rounded',
-                    'hover:bg-primary-200 focus:outline-none focus:ring-1 focus:ring-primary-500',
-                    'transition-colors'
-                  )}
-                  aria-label={`Remove ${option.label}`}
-                  tabIndex={-1}
-                >
-                  <CloseIcon className={sizeStyles[size].icon} />
-                </button>
-              </span>
-            ))}
-          </div>
+          <span className="text-neutral-900">
+            {selectedOptions.length} {selectedOptions.length === 1 ? 'item' : 'items'} selected
+          </span>
         );
       }
 
@@ -572,12 +529,19 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
             aria-selected={selected}
             aria-disabled={option.disabled}
             data-index={index}
-            onClick={() => selectOption(option)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!option.disabled) {
+                selectOption(option);
+              }
+            }}
             className={cn(
               'cursor-pointer select-none transition-colors',
               sizeStyles[size].option,
+              !option.disabled && 'hover:bg-gray-100',
               highlighted && 'bg-primary-50',
-              selected && 'bg-primary-100 text-primary-900 font-medium',
+              selected && !multiple && 'bg-primary-100 text-primary-900 font-medium',
               option.disabled && 'opacity-50 cursor-not-allowed'
             )}
           >
@@ -593,12 +557,19 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
           aria-selected={selected}
           aria-disabled={option.disabled}
           data-index={index}
-          onClick={() => !option.disabled && selectOption(option)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!option.disabled) {
+              selectOption(option);
+            }
+          }}
           className={cn(
             'flex items-center gap-2 cursor-pointer select-none transition-colors rounded-md',
             sizeStyles[size].option,
+            !option.disabled && 'hover:bg-gray-100',
             highlighted && 'bg-primary-50',
-            selected && 'bg-primary-100 text-primary-900 font-medium',
+            selected && !multiple && 'bg-primary-100 text-primary-900 font-medium',
             option.disabled && 'opacity-50 cursor-not-allowed'
           )}
         >
@@ -678,6 +649,14 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
 
     return (
       <div ref={containerRef} className={cn('relative inline-block w-full', className)}>
+        {/* Label */}
+        {label && (
+          <label htmlFor={id} className="block text-sm font-medium text-neutral-900 mb-1.5">
+            {label}
+            {required && <span className="text-danger-500 ml-0.5">*</span>}
+          </label>
+        )}
+
         {/* Hidden input for form submission */}
         {name && (
           <input
@@ -691,6 +670,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         {/* Trigger button */}
         <button
           ref={triggerRef}
+          id={id}
           type="button"
           role="combobox"
           aria-expanded={isOpen}
@@ -710,7 +690,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
             sizeStyles[size].trigger,
             variantStyles[variant],
             disabled && 'opacity-50 cursor-not-allowed',
-            isOpen && 'ring-2 ring-primary-100 border-primary-500'
+            isOpen && 'border-primary-500'
           )}
         >
           <div className="flex items-center gap-2 flex-1 min-w-0">{renderSelectedValue()}</div>
@@ -726,7 +706,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                 }}
                 className={cn(
                   'inline-flex items-center justify-center rounded p-0.5',
-                  'hover:bg-neutral-200 focus:outline-none focus:ring-1 focus:ring-primary-500',
+                  'hover:bg-neutral-200 focus:outline-none',
                   'transition-colors'
                 )}
                 aria-label="Clear selection"
@@ -776,7 +756,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                         onChange={handleSearchChange}
                         className={cn(
                           'w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md',
-                          'focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500',
+                          'focus:outline-none',
                           'text-sm'
                         )}
                         aria-label="Search options"
@@ -794,7 +774,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                   aria-label={ariaLabel || 'Options'}
                   aria-multiselectable={multiple}
                   tabIndex={-1}
-                  className="overflow-y-auto p-1"
+                  className="overflow-y-auto p-2"
                   style={{ maxHeight: searchable ? maxHeight - 60 : maxHeight }}
                 >
                   {renderOptions()}
@@ -826,7 +806,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                       onChange={handleSearchChange}
                       className={cn(
                         'w-full pl-9 pr-3 py-2 border border-neutral-300 rounded-md',
-                        'focus:outline-none focus:ring-2 focus:ring-primary-100 focus:border-primary-500',
+                        'focus:outline-none focus:border-primary-500',
                         'text-sm'
                       )}
                       aria-label="Search options"
@@ -844,7 +824,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
                 aria-label={ariaLabel || 'Options'}
                 aria-multiselectable={multiple}
                 tabIndex={-1}
-                className="overflow-y-auto p-1"
+                className="overflow-y-auto p-2"
                 style={{ maxHeight: searchable ? maxHeight - 60 : maxHeight }}
               >
                 {renderOptions()}

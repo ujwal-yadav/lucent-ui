@@ -22,6 +22,9 @@ export interface SelectProps<T = string> {
   /** Array of options */
   options: SelectOption<T>[];
 
+  /** Label text displayed above the select */
+  label?: string;
+
   /** Placeholder text */
   placeholder?: string;
 
