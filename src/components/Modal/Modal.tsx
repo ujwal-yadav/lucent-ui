@@ -194,10 +194,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           {/* Header with close button */}
           <div
-            className={cn(
-              'flex items-center justify-between',
-              title ? 'p-6' : 'p-4 pb-0'
-            )}
+            className={cn('flex items-center justify-between', title ? 'p-6' : 'p-4 pb-0')}
             style={title ? { boxShadow: 'rgba(0, 0, 0, 0.08) 0px 1px 0px' } : undefined}
           >
             {title && (

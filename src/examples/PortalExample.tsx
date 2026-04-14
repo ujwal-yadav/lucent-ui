@@ -61,12 +61,7 @@ export const DrawerExample = () => {
   return (
     <div>
       <Button onClick={() => setIsOpen(true)}>Open Drawer</Button>
-      <Drawer
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        position="right"
-        title="Settings"
-      >
+      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} position="right" title="Settings">
         <div className="space-y-4">
           <p>Drawer content is rendered in a portal.</p>
           <p>This allows it to slide in from any edge.</p>
