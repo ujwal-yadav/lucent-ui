@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FilterPill } from './FilterPill';
+import { DateFilterPill } from './DateFilterPill';
 import { useState } from 'react';
 import { FilterIcon, StarIcon, SettingsIcon } from '../Icon';
 
@@ -618,4 +619,138 @@ export const DesignSystemFeatures: Story = {
       </div>
     </div>
   ),
+};
+
+/**
+ * Date filter pill with calendar picker
+ */
+export const DateFilter: Story = {
+  render: () => {
+    const [startDate, setStartDate] = useState<string | null>(null);
+    const [endDate, setEndDate] = useState<string | null>(null);
+
+    return (
+      <div className="flex gap-3 flex-wrap">
+        <DateFilterPill
+          label="Date"
+          startDate={startDate}
+          onApply={(start) => {
+            setStartDate(start);
+            console.log('Selected date:', start);
+          }}
+          onClear={() => setStartDate(null)}
+        />
+        {startDate && (
+          <div className="text-sm text-neutral-600 flex items-center">
+            Selected: <strong className="ml-1">{startDate}</strong>
+          </div>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
+ * Date range filter pill with calendar picker
+ */
+export const DateRangeFilter: Story = {
+  render: () => {
+    const [startDate, setStartDate] = useState<string | null>(null);
+    const [endDate, setEndDate] = useState<string | null>(null);
+
+    return (
+      <div className="space-y-3">
+        <DateFilterPill
+          label="Date Range"
+          startDate={startDate}
+          endDate={endDate}
+          enableRange
+          onApply={(start, end) => {
+            setStartDate(start);
+            setEndDate(end);
+            console.log('Selected range:', start, '-', end);
+          }}
+          onClear={() => {
+            setStartDate(null);
+            setEndDate(null);
+          }}
+        />
+        {startDate && endDate && (
+          <div className="text-sm text-neutral-600">
+            Selected range:{' '}
+            <strong>
+              {startDate} to {endDate}
+            </strong>
+          </div>
+        )}
+      </div>
+    );
+  },
+};
+
+/**
+ * Multiple filter pills including date filter
+ */
+export const MixedFilters: Story = {
+  render: () => {
+    const [category, setCategory] = useState<string[]>([]);
+    const [startDate, setStartDate] = useState<string | null>(null);
+    const [endDate, setEndDate] = useState<string | null>(null);
+
+    const categoryOptions = [
+      { value: 'electronics', label: 'Electronics', checked: false },
+      { value: 'clothing', label: 'Clothing', checked: false },
+      { value: 'books', label: 'Books', checked: false },
+      { value: 'home', label: 'Home & Garden', checked: false },
+    ];
+
+    return (
+      <div className="space-y-4">
+        <div className="flex gap-3 flex-wrap">
+          <FilterPill
+            label="Category"
+            options={categoryOptions}
+            searchable
+            onApply={(values) => setCategory(values)}
+            onClear={() => setCategory([])}
+          />
+          <DateFilterPill
+            label="Date Range"
+            startDate={startDate}
+            endDate={endDate}
+            enableRange
+            onApply={(start, end) => {
+              setStartDate(start);
+              setEndDate(end);
+            }}
+            onClear={() => {
+              setStartDate(null);
+              setEndDate(null);
+            }}
+          />
+        </div>
+
+        {(category.length > 0 || (startDate && endDate)) && (
+          <div className="p-3 bg-gray-50 rounded-md border border-gray-200">
+            <p className="text-sm font-medium text-neutral-900 mb-2">Active Filters:</p>
+            <ul className="text-sm text-neutral-600 space-y-1">
+              {category.length > 0 && (
+                <li>
+                  Categories: <strong>{category.join(', ')}</strong>
+                </li>
+              )}
+              {startDate && endDate && (
+                <li>
+                  Date Range:{' '}
+                  <strong>
+                    {startDate} to {endDate}
+                  </strong>
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
+      </div>
+    );
+  },
 };

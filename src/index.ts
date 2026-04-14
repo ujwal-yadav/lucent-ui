@@ -20,8 +20,8 @@ export type { SelectProps, SelectOption } from './components/Select';
 export { Badge } from './components/Badge';
 export type { BadgeProps, BadgeVariant, BadgeSize } from './components/Badge';
 
-export { FilterPill } from './components/FilterPill';
-export type { FilterPillProps, FilterOption } from './components/FilterPill';
+export { FilterPill, DateFilterPill } from './components/FilterPill';
+export type { FilterPillProps, FilterOption, DateFilterPillProps } from './components/FilterPill';
 
 export * from './components/Icon';
 

@@ -139,12 +139,11 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
           type="button"
           onClick={handleToggle}
           className={cn(
-            'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-pill',
-            'bg-white shadow-border',
-            'hover:shadow-border-light hover:bg-gray-50',
-            'transition-all duration-200',
-            'focus-visible:shadow-[rgba(0,0,0,0.08)_0px_0px_0px_1px,_0_0_0_2px_#3535F3]',
-            open && 'shadow-[rgba(0,0,0,0.12)_0px_0px_0px_1px] bg-gray-50'
+            'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md',
+            'bg-white border',
+            ' hover:bg-gray-50',
+            'transition-all duration-200 outline-none',
+            open && ' bg-gray-50'
           )}
         >
           {icon && (
@@ -247,10 +246,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                         />
                         <span
                           className={cn(
-                            'text-sm flex-1 transition-colors duration-150 break-words',
-                            option.checked
-                              ? 'text-neutral-900 font-medium'
-                              : 'text-gray-600 font-normal'
+                            'text-sm flex-1 transition-colors duration-150 break-words text-neutral-900 font-medium'
                           )}
                         >
                           {option.label}
