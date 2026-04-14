@@ -53,7 +53,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           <span
             className={cn(
               'text-sm text-neutral-900 font-normal select-none',
-              disabled && 'cursor-not-allowed'
+              disabled ? 'cursor-not-allowed' : 'cursor-pointer'
             )}
           >
             {label}
