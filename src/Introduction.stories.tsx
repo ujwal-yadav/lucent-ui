@@ -4,7 +4,7 @@ import LogoSvg from './assets/logo.svg?url';
 /**
  * # Welcome to Lucent UI
  *
- * A modern React component library built with TypeScript, Tailwind CSS, Geist typography, and accessibility in mind.
+ * A modern React component library built with TypeScript, Tailwind CSS, Inter typography, and accessibility in mind.
  *
  * ## Design System
  *
@@ -54,7 +54,7 @@ const Welcome = () => {
   return (
     <div
       style={{
-        fontFamily: 'Geist, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
         minHeight: '100vh',
         background: 'linear-gradient(to bottom, #ffffff 0%, #fafafa 100%)',
       }}
@@ -238,7 +238,7 @@ const Welcome = () => {
               title: 'Beautiful',
               color: '#1FBE5F',
               description:
-                'Modern minimal design with shadow-as-border technique and Geist typography.',
+                'Modern minimal design with shadow-as-border technique and Inter typography.',
             },
             {
               title: 'TypeScript',

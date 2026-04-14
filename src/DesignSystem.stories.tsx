@@ -9,7 +9,7 @@ const DesignSystemOverview = () => {
   return (
     <div
       style={{
-        fontFamily: 'Geist, -apple-system, BlinkMacSystemFont, sans-serif',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
         padding: '2rem',
       }}
     >
@@ -273,9 +273,8 @@ const DesignSystemOverview = () => {
           Typography
         </h2>
         <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
-          Using <strong>Geist</strong> - A modern typeface designed for developer interfaces.
-          Features aggressive negative letter-spacing at display sizes (-2.4px to -2.88px at 48px)
-          and three-weight system (400/500/600).
+          Using <strong>Inter</strong> - A versatile typeface optimized for user interfaces.
+          Features clean readability and supports weights 400, 500, 600, and 700.
         </p>
 
         <div style={{ marginBottom: '2rem' }}>
@@ -325,7 +324,7 @@ const DesignSystemOverview = () => {
 
         <div style={{ marginBottom: '2rem' }}>
           <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#374151' }}>
-            Font Weights (Geist Three-Weight System)
+            Font Weights
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {[

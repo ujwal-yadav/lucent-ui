@@ -1,6 +1,6 @@
 # Lucent UI Components
 
-A modern React component library built with TypeScript, Tailwind CSS, and Geist font family.
+A modern React component library built with TypeScript, Tailwind CSS, and Inter font family.
 
 ## 🎨 Theme
 
@@ -33,19 +33,19 @@ The design system features a minimal, achromatic color palette with **#3535F3** 
 
 ### Typography
 
-Lucent UI uses **Geist** - A modern typeface designed for developer interfaces.
+Lucent UI uses **Inter** - A versatile typeface optimized for user interfaces.
 
-- **Font Family**: Geist Sans (primary), Geist Mono (code/technical)
-- **Letter Spacing**: Aggressive negative tracking at display sizes (-2.4px to -2.88px at 48px)
-- **Weights**: Three-weight system
+- **Font Family**: Inter (primary), system fonts (fallback)
+- **Weights**: Flexible weight system
   - 400 (Regular) - Body text, reading content
   - 500 (Medium) - UI elements, interactive components
   - 600 (Semibold) - Headings, titles, emphasis
+  - 700 (Bold) - Strong emphasis, headers
 - **Features**:
-  - OpenType ligatures (`"liga"`) enabled globally
   - Optimized for screen readability
-  - Compressed, engineered aesthetic
-  - Tabular numerals for technical data
+  - Extensive language support
+  - Clean, modern aesthetic
+  - Excellent legibility at small sizes
 
 📖 **[View Typography System Documentation](./docs/design.md#typography-rules)**
 

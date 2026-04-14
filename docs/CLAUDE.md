@@ -49,7 +49,7 @@ Lucent UI is an enterprise-grade React component library built with:
 
 - Shadow-as-border technique (no actual borders, use box-shadow)
 - 6px border radius (`rounded-sm` in Tailwind)
-- Geist typography
+- Inter typography
 - Subtle animations and transitions
 - No unnecessary decorations
 

@@ -267,8 +267,8 @@ Tailwind default (4px base unit).
 
 ### Typography
 
-- Font: Geist with system fallbacks
-- Weights: 400, 500, 600
+- Font: Inter with system fallbacks
+- Weights: 400, 500, 600, 700
 
 ## Architectural Decisions
 

@@ -1,5 +1,5 @@
-/* Import Geist fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /**
  * Lucent UI - Component Styles
@@ -19,7 +19,6 @@
 
   body {
     @apply font-sans text-base-black bg-base-white;
-    font-feature-settings: 'liga' 1; /* Enable Geist ligatures */
   }
 
   /* Focus ring system - primary blue, no offset */

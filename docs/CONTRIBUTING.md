@@ -361,8 +361,8 @@ Use Tailwind spacing scale:
 
 ### Typography
 
-- Font: Geist (fallback to system fonts)
-- Weights: 400 (normal), 500 (medium), 600 (semibold)
+- Font: Inter (fallback to system fonts)
+- Weights: 400 (normal), 500 (medium), 600 (semibold), 700 (bold)
 - Sizes: Use Tailwind `text-` utilities
 
 ## Accessibility Standards

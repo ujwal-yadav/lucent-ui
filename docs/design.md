@@ -66,7 +66,7 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 ### Surface & Overlay
 
 - **Overlay Backdrop** (`hsla(0, 0%, 98%, 1)`): `--ds-overlay-backdrop-color`, modal/dialog backdrop.
-- **Selection Text** (`hsla(0, 0%, 95%, 1)`): `--geist-selection-text-color`, text selection highlight.
+- **Selection Text** (`hsla(0, 0%, 95%, 1)`): `--ds-selection-text-color`, text selection highlight.
 - **Badge Blue Bg** (`#ebf5ff`): Pill badge background, tinted blue surface.
 - **Badge Blue Text** (`#0068d6`): Pill badge text, darker blue for readability.
 
