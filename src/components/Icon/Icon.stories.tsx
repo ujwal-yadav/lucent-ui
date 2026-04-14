@@ -216,7 +216,7 @@ export const UsageExample: Story = {
       {/* Button with Icon */}
       <div>
         <p className="text-sm text-gray-600 mb-2">Button with Icon</p>
-        <button className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 text-white rounded-sm font-medium hover:bg-gray-900/90 transition-colors">
+        <button className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-900 text-white rounded-md font-medium hover:bg-gray-900/90 transition-colors">
           <Icons.PlusIcon size="sm" color="current" />
           Add Item
         </button>
@@ -234,7 +234,7 @@ export const UsageExample: Story = {
           <input
             type="text"
             placeholder="Search..."
-            className="w-full pl-9 pr-3 py-2 rounded-sm bg-white shadow-border text-sm text-neutral-900 placeholder:text-gray-400 focus:outline-none"
+            className="w-full pl-9 pr-3 py-2 rounded-md bg-white shadow-border text-sm text-neutral-900 placeholder:text-gray-400 focus:outline-none"
           />
         </div>
       </div>
@@ -260,7 +260,7 @@ export const UsageExample: Story = {
       {/* Icon Button */}
       <div>
         <p className="text-sm text-gray-600 mb-2">Icon Button</p>
-        <button className="p-2 rounded-sm hover:bg-gray-50 transition-colors">
+        <button className="p-2 rounded-md hover:bg-gray-50 transition-colors">
           <Icons.SettingsIcon size="md" color="gray" />
         </button>
       </div>

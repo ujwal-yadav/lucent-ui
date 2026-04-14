@@ -144,7 +144,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           // Base styles - Vercel design
           'inline-flex items-center justify-center',
-          'font-medium rounded-sm', // 6px radius, 500 weight
+          'font-medium rounded-md', // 8px radius, 500 weight
           'transition-[transform,background-color] duration-200', // Only transition transform and background
           'outline-none', // Remove default outline
           'focus:outline-none', // Remove outline on focus

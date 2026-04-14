@@ -161,8 +161,8 @@ export default {
       borderRadius: {
         'micro': '2px',   // Inline code
         'subtle': '4px',  // Small containers
-        'sm': '6px',      // Buttons, functional elements (Vercel standard)
-        'md': '8px',      // Cards, list items
+        'sm': '6px',      // Small elements
+        'md': '8px',      // Buttons, functional elements, cards, list items (standard)
         'lg': '12px',     // Image cards (top-rounded)
         'xl': '64px',     // Tab navigation pills
         '2xl': '100px',   // Large nav links

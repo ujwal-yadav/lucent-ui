@@ -130,7 +130,7 @@ import { CheckIcon } from '@lucent-ui/components';
 ### Icon Button
 
 ```tsx
-<button className="p-2 rounded-sm hover:bg-gray-50 transition-colors">
+<button className="p-2 rounded-md hover:bg-gray-50 transition-colors">
   <SettingsIcon size="md" color="gray" />
 </button>
 ```

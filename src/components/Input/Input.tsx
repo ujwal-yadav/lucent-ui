@@ -120,7 +120,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             aria-required={required}
             className={cn(
               // Base styles - Vercel design
-              'w-full rounded-sm', // 6px radius
+              'w-full rounded-md', // 8px radius
               'transition-all duration-200',
               'focus:outline-none',
               'placeholder:text-gray-400',

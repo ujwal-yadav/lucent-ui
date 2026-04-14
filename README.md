@@ -70,7 +70,7 @@ A versatile button component with modern minimal design using shadow-as-border t
 **Features**:
 
 - Shadow-as-border technique (no CSS borders)
-- 6px radius (standard)
+- 8px radius (standard)
 - Font weight 500 (medium) for UI elements
 - Primary Blue (#3535F3) focus ring (2px)
 - Icon support (left and right)
@@ -88,7 +88,7 @@ All form controls follow modern minimal design with consistent styling.
 - Primary Blue (#3535F3) for checked/selected states
 - Danger Red (#f50031) for error states
 - Success Green (#1FBE5F) for success validation
-- Shadow-border technique (6px radius)
+- Shadow-border technique (8px radius)
 - Consistent focus ring (2px Primary Blue)
 - Native `accentColor` support for form controls
 

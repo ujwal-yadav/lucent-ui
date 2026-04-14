@@ -147,7 +147,7 @@ export const Dismissible: Story = {
         {!show && (
           <button
             onClick={() => setShow(true)}
-            className="px-4 py-2 bg-primary-500 text-white rounded-sm font-medium hover:bg-primary-600 transition-colors"
+            className="px-4 py-2 bg-primary-500 text-white rounded-md font-medium hover:bg-primary-600 transition-colors"
           >
             Show Alert Again
           </button>
@@ -175,7 +175,7 @@ export const AutoDismiss: Story = {
         {!show && (
           <button
             onClick={() => setShow(true)}
-            className="px-4 py-2 bg-primary-500 text-white rounded-sm font-medium hover:bg-primary-600 transition-colors"
+            className="px-4 py-2 bg-primary-500 text-white rounded-md font-medium hover:bg-primary-600 transition-colors"
           >
             Show Alert Again
           </button>
@@ -203,31 +203,31 @@ export const AnimatedStack: Story = {
         <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => addAlert('info')}
-            className="px-4 py-2 bg-primary-500 text-white rounded-sm font-medium hover:bg-primary-600 transition-colors"
+            className="px-4 py-2 bg-primary-500 text-white rounded-md font-medium hover:bg-primary-600 transition-colors"
           >
             Add Info
           </button>
           <button
             onClick={() => addAlert('success')}
-            className="px-4 py-2 bg-success text-white rounded-sm font-medium hover:bg-success/90 transition-colors"
+            className="px-4 py-2 bg-success text-white rounded-md font-medium hover:bg-success/90 transition-colors"
           >
             Add Success
           </button>
           <button
             onClick={() => addAlert('warning')}
-            className="px-4 py-2 bg-warning text-neutral-900 rounded-sm font-medium hover:bg-warning/90 transition-colors"
+            className="px-4 py-2 bg-warning text-neutral-900 rounded-md font-medium hover:bg-warning/90 transition-colors"
           >
             Add Warning
           </button>
           <button
             onClick={() => addAlert('danger')}
-            className="px-4 py-2 bg-danger text-white rounded-sm font-medium hover:bg-danger/90 transition-colors"
+            className="px-4 py-2 bg-danger text-white rounded-md font-medium hover:bg-danger/90 transition-colors"
           >
             Add Danger
           </button>
           <button
             onClick={() => addAlert('premium')}
-            className="px-4 py-2 bg-premium-600 text-white rounded-sm font-medium hover:bg-premium-700 transition-colors"
+            className="px-4 py-2 bg-premium-600 text-white rounded-md font-medium hover:bg-premium-700 transition-colors"
           >
             Add Premium
           </button>

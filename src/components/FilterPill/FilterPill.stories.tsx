@@ -610,7 +610,7 @@ export const DesignSystemFeatures: Story = {
           <li>✅ Count badge with rounded background</li>
           <li>✅ Count only shows after Apply</li>
           <li>✅ Apply & Clear disabled when no selection</li>
-          <li>✅ 6px rounded-sm button (not pill!)</li>
+          <li>✅ 6px rounded-md button (not pill!)</li>
           <li>✅ Icon library integration</li>
           <li>✅ Font weight 500 for UI elements</li>
           <li>✅ Virtualized list for performance</li>

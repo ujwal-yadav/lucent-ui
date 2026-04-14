@@ -10,7 +10,7 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 
 **Key Characteristics:**
 
-- Standard 6px border radius (`rounded-sm` in Tailwind) across all components for consistency
+- Standard 8px border radius (`rounded-sm` in Tailwind) across all components for consistency
 - Inter font family with tight letter-spacing at display sizes for clean, professional typography
 - Shadow-as-border technique: `box-shadow rgba(0,0,0,0.08) 0px 0px 0px 1px`
 - Multi-layer shadow stacks for nuanced depth (border + elevation + ambient)
@@ -242,7 +242,7 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 
 - Images with `1px solid #ebebeb` border for definition
 - Top-rounded images: `12px 12px 0px 0px` radius
-- Consistent 6px radius for standard images
+- Consistent 8px radius for standard images
 - Maintain shadow-border treatment on image containers
 
 ### Distinctive Components
@@ -323,7 +323,7 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 - Use Danger Red (`#f50031`) for error states, destructive actions, and validation errors
 - Use Warning Yellow (`#f59e0b`) for warning states and important notices
 - Use Premium Purple (`#7e22ce`) for premium features and special highlights
-- Use standard 6px border radius (`rounded-sm`) for consistency across all components
+- Use standard 8px border radius (`rounded-md`) for consistency across all components
 - Use shadow-as-border (`rgba(0,0,0,0.08) 0px 0px 0px 1px`) instead of traditional CSS borders
 - Use font weight 500 (medium) for all UI elements and interactive components
 - Use the weight system: 400 (body/reading), 500 (UI/interactive), 600 (strong emphasis), 700 (display headings)
@@ -408,13 +408,13 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 
 ### Example Component Prompts
 
-- "Create a Button component: Primary variant with #3535F3 background, white text, 6px radius, 8px 16px padding, Inter font weight 500. Hover darkens to #2a2ac2. Focus ring: 2px solid #3535F3. Support icon left/right and loading state."
-- "Design a Card: white background, no CSS border. Shadow stack: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, #fafafa 0px 0px 0px 1px. 6px radius. Title at 24px Inter weight 600. Body at 16px weight 400, #4d4d4d."
+- "Create a Button component: Primary variant with #3535F3 background, white text, 8px radius, 8px 16px padding, Inter font weight 500. Hover darkens to #2a2ac2. Focus ring: 2px solid #3535F3. Support icon left/right and loading state."
+- "Design a Card: white background, no CSS border. Shadow stack: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 2px 2px, #fafafa 0px 0px 0px 1px. 8px radius. Title at 24px Inter weight 600. Body at 16px weight 400, #4d4d4d."
 - "Build a Badge: Primary variant with #3535F3 background, white text, 9999px radius (pill), padding 0px 10px, 12px Inter weight 500. Support dot indicator and icon props."
-- "Create an Input: white background, shadow-border rgba(0,0,0,0.08) 0px 0px 0px 1px, 6px radius. Inter 14px weight 400. Focus: Primary Blue ring. Error state: Danger Red shadow rgba(245,0,49,0.3). Success state: Success Green shadow."
+- "Create an Input: white background, shadow-border rgba(0,0,0,0.08) 0px 0px 0px 1px, 8px radius. Inter 14px weight 400. Focus: Primary Blue ring. Error state: Danger Red shadow rgba(245,0,49,0.3). Success state: Success Green shadow."
 - "Design a Checkbox: gray border (#808080) unchecked, Primary Blue (#3535F3) background with white checkmark when checked. Error state: Danger Red (#f50031) border. Focus ring: 2px #3535F3. Inter weight 500 for label."
 - "Create an Alert: Info variant uses blue-50 background with shadow-border. Success uses emerald-50 with Success Green (#1FBE5F) icon. Danger uses red-50 with Danger Red (#f50031) icon. Warning uses amber-50 with Warning Yellow icon. Support closeable and auto-dismiss."
-- "Design a Select component: shadow-border input, 6px radius. Dropdown with white background, shadow elevation. Virtual scrolling for 1000+ items. Primary Blue (#3535F3) for selected state. Keyboard navigation support."
+- "Design a Select component: shadow-border input, 8px radius. Dropdown with white background, shadow elevation. Virtual scrolling for 1000+ items. Primary Blue (#3535F3) for selected state. Keyboard navigation support."
 
 ### Iteration Guide
 
@@ -423,7 +423,7 @@ Lucent UI's signature is the shadow-as-border technique. Instead of traditional 
 3. Danger Red (`#f50031`) for error states — validation errors, destructive actions, danger alerts
 4. Warning Yellow (`#f59e0b`) for warning states — cautions, important notices
 5. Premium Purple (`#7e22ce`) for premium features — exclusive content, special highlights
-6. Standard 6px border radius (`rounded-sm`) on all components except badges (9999px) and avatars (50%)
+6. Standard 8px border radius (`rounded-md`) on all components except badges (9999px) and avatars (50%)
 7. Font weight 500 (medium) for all UI elements — buttons, navigation, interactive components
 8. Always use shadow-as-border instead of CSS border — `rgba(0,0,0,0.08) 0px 0px 0px 1px`
 9. Inter font family for all UI and content — JetBrains Mono for code and technical labels

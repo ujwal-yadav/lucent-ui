@@ -187,7 +187,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className={cn(
-                      'w-full pl-10 pr-3 py-2 rounded-sm',
+                      'w-full pl-10 pr-3 py-2 rounded-md',
                       'bg-white shadow-border',
                       'text-sm text-neutral-900 placeholder:text-gray-400',
                       'focus-visible:shadow-[rgba(0,0,0,0.08)_0px_0px_0px_1px,_0_0_0_2px_#3535F3]',
@@ -285,7 +285,7 @@ export const FilterPill = forwardRef<HTMLDivElement, FilterPillProps>(
                 onClick={handleApply}
                 disabled={!hasSelection}
                 className={cn(
-                  'h-8 px-4 rounded-sm text-sm font-medium',
+                  'h-8 px-4 rounded-md text-sm font-medium',
                   'transition-all duration-200',
                   hasSelection
                     ? 'bg-[#3535F3] text-white hover:bg-[#2a2ac2] focus-visible:shadow-[0_0_0_2px_#3535F3] cursor-pointer'

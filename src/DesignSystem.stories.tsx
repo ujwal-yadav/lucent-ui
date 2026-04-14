@@ -598,7 +598,7 @@ const DesignSystemOverview = () => {
               title: 'Achromatic base',
               desc: 'Primary Black (#171717) for text, not pure black (#000000)',
             },
-            { title: '6px border radius', desc: 'Standard radius for buttons and inputs' },
+            { title: '8px border radius', desc: 'Standard radius for buttons and inputs' },
             {
               title: 'Font weight 500',
               desc: 'Medium weight for all UI elements and interactive components',

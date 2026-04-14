@@ -48,7 +48,7 @@ Lucent UI is an enterprise-grade React component library built with:
 ### 5. Minimal Design
 
 - Shadow-as-border technique (no actual borders, use box-shadow)
-- 6px border radius (`rounded-sm` in Tailwind)
+- 8px border radius (`rounded-sm` in Tailwind)
 - Inter typography
 - Subtle animations and transitions
 - No unnecessary decorations
@@ -132,7 +132,7 @@ Component.displayName = 'Component';
 
 - Use Tailwind utility classes (never inline CSS unless required)
 - Shadow-as-border: `[box-shadow:rgba(0,0,0,0.08)_0px_0px_0px_1px]`
-- Border radius: `rounded-sm` (6px)
+- Border radius: `rounded-md` (8px)
 - Font weight: `font-medium` (500) for UI elements
 - Transitions: `transition-all duration-200`
 

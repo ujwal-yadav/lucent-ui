@@ -387,7 +387,7 @@ describe('Button Component', () => {
       expect(button).toHaveClass('items-center');
       expect(button).toHaveClass('justify-center');
       expect(button).toHaveClass('font-medium');
-      expect(button).toHaveClass('rounded-sm');
+      expect(button).toHaveClass('rounded-md');
     });
 
     it('should apply active scale animation class', () => {

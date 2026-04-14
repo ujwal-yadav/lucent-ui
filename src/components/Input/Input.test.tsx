@@ -537,7 +537,7 @@ describe('Input Component', () => {
       const input = screen.getByRole('textbox');
 
       expect(input).toHaveClass('w-full');
-      expect(input).toHaveClass('rounded-sm');
+      expect(input).toHaveClass('rounded-md');
       expect(input).toHaveClass('transition-all');
     });
 
