@@ -68,6 +68,12 @@ export type { DialogProps } from './components/Dialog';
 export { Drawer } from './components/Drawer';
 export type { DrawerProps } from './components/Drawer';
 
+export { Sidebar, SidebarItem } from './components/Sidebar';
+export type { SidebarProps, SidebarItemProps } from './components/Sidebar';
+
+export { Timeline, TimelineItem } from './components/Timeline';
+export type { TimelineProps, TimelineItemProps } from './components/Timeline';
+
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverPosition } from './components/Popover';
 
