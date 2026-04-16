@@ -216,6 +216,20 @@ export const Table = <T extends Record<string, any>>({
     lg: 'px-6 py-4 text-lg',
   };
 
+  // Helper function to parse width string to number
+  const parseWidth = (width?: string): number => {
+    if (!width) return 150; // Default width
+    const match = width.match(/^(\d+(?:\.\d+)?)(px|rem|em)?$/);
+    if (!match) return 150;
+    const value = parseFloat(match[1]);
+    const unit = match[2] || 'px';
+    // Convert rem/em to px (assuming 1rem = 16px)
+    if (unit === 'rem' || unit === 'em') {
+      return value * 16;
+    }
+    return value;
+  };
+
   // Calculate sticky column offsets
   const getStickyColumnStyle = (column: Column<T>, columnIndex: number) => {
     if (!column.sticky) return {};
@@ -231,14 +245,14 @@ export const Table = <T extends Record<string, any>>({
     if (column.sticky === 'left') {
       for (let i = 0; i < columnIndex; i++) {
         if (columns[i].sticky === 'left') {
-          offset += 150; // Default width for sticky columns
+          offset += parseWidth(columns[i].width);
         }
       }
     } else {
       // For right sticky columns, calculate from the right
       for (let i = columnIndex + 1; i < columns.length; i++) {
         if (columns[i].sticky === 'right') {
-          offset += 150;
+          offset += parseWidth(columns[i].width);
         }
       }
     }
@@ -280,6 +294,8 @@ export const Table = <T extends Record<string, any>>({
                 // Always apply border to sticky columns using inset box-shadow for borders
                 const styles: React.CSSProperties = {
                   width: column.width,
+                  minWidth: column.width,
+                  maxWidth: column.width,
                   ...stickyStyle,
                 };
 
@@ -306,10 +322,10 @@ export const Table = <T extends Record<string, any>>({
                     )}
                     onClick={() => column.sortable && handleSort(column.key)}
                   >
-                    <div className="flex items-center gap-2">
-                      {column.header}
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <span className="break-words">{column.header}</span>
                       {column.sortable && (
-                        <span className="text-neutral-400">
+                        <span className="text-neutral-400 flex-shrink-0">
                           {sortKey === column.key ? (sortOrder === 'asc' ? '↑' : '↓') : '↕'}
                         </span>
                       )}
@@ -375,6 +391,9 @@ export const Table = <T extends Record<string, any>>({
 
                       // Always apply border to sticky columns using inset box-shadow for borders
                       const styles: React.CSSProperties = {
+                        width: column.width,
+                        minWidth: column.width,
+                        maxWidth: column.width,
                         ...stickyStyle,
                       };
 
@@ -399,7 +418,9 @@ export const Table = <T extends Record<string, any>>({
                               (striped && index % 2 === 1 ? 'bg-neutral-50' : 'bg-white')
                           )}
                         >
-                          {column.render ? column.render(item) : item[column.key]}
+                          <div className="overflow-hidden break-words">
+                            {column.render ? column.render(item) : item[column.key]}
+                          </div>
                         </td>
                       );
                     })}
