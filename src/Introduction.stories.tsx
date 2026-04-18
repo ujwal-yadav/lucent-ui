@@ -110,7 +110,7 @@ const Welcome = () => {
           }}
         >
           <a
-            href="/?path=/docs/components-button--docs"
+            href="/?path=/docs/components-accordion--docs"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
